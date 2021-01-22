@@ -21,6 +21,8 @@ make
 
 Additional build options can be enabled by runing ccmake.
 
+To install, copy the library and SOURCES/install.sql to a Vertica node.  Edit install.sql and copy the correct library path and file name at the top, then run with `vsql -f install.sql`
+
 # Known issues
 In Vertica, each query is given at runtime a pool which depends of the configuration of the database and the context (User, Roles, etc).
 
