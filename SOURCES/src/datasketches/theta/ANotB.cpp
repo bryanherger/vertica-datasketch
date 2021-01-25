@@ -39,7 +39,7 @@ public:
 };
 
 class ThetaSketchANotBFactory : public ThetaSketchScalarFunctionFactory {
-    // return an instance of AddAnyInts to perform the actual addition.
+    // return an instance of ANotB to perform the actual addition.
     virtual ScalarFunction *createScalarFunction(ServerInterface &interface) {
         return vt_createFuncObject<ThetaSketchANotB>(interface.allocator);
     }
@@ -47,9 +47,9 @@ class ThetaSketchANotBFactory : public ThetaSketchScalarFunctionFactory {
     virtual void getPrototype(ServerInterface &interface,
                               ColumnTypes &argTypes,
                               ColumnTypes &returnType) {
-        argTypes.addVarbinary();
-        argTypes.addVarbinary();
-        returnType.addVarbinary();
+        argTypes.addLongVarbinary();
+        argTypes.addLongVarbinary();
+        returnType.addLongVarbinary();
     }
 };
 

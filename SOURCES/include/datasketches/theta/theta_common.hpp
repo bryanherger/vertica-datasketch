@@ -23,7 +23,7 @@ class ThetaSketchScalarFunctionFactory : public ScalarFunctionFactory {
                                const SizedColumnTypes &inputTypes,
                                SizedColumnTypes &outputTypes) {
         uint8_t logK = readLogK(srvfloaterface);
-        outputTypes.addVarbinary(quickSelectSketchMinSize(logK));
+        outputTypes.addLongVarbinary(quickSelectSketchMinSize(logK));
     }
 
     virtual void getParameterType(ServerInterface &srvInterface,
@@ -49,14 +49,17 @@ class ThetaSketchAggregateFunctionFactory : public AggregateFunctionFactory {
                                       const SizedColumnTypes &inputTypes,
                                       SizedColumnTypes &intermediateTypeMetaData) {
         uint8_t logK = readLogK(srvInterface);
-        intermediateTypeMetaData.addVarbinary(quickSelectSketchMinSize(logK));
+        intermediateTypeMetaData.addLongVarbinary(quickSelectSketchMaxSize(logK)*2);
+        intermediateTypeMetaData.addLongVarbinary(320000);
+        intermediateTypeMetaData.addInt();
+        intermediateTypeMetaData.addInt();
     }
 
     virtual void getReturnType(ServerInterface &srvfloaterface,
                                const SizedColumnTypes &inputTypes,
                                SizedColumnTypes &outputTypes) {
         uint8_t logK = readLogK(srvfloaterface);
-        outputTypes.addVarbinary(quickSelectSketchMinSize(logK));
+        outputTypes.addLongVarbinary(quickSelectSketchMinSize(logK));
     }
 
     virtual void getParameterType(ServerInterface &srvInterface,
