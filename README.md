@@ -5,7 +5,7 @@ Details on the library and underlying algorithm can be found here https://datask
 
 This extensions uses the open-source C++ implementation https://github.com/apache/incubator-datasketches-cpp/
 
-**Currently only the theta sketch, Hll sketch, and frequency sketch are implemented for Vertica, see examples below.**
+**Currently only the theta sketch, Hll (HyperLogLog) sketch, and frequency sketch are implemented for Vertica, see examples below.**
 
 ## Install
 This library requires cmake 3.14+  "yum install cmake3" package should install the correct version
@@ -22,7 +22,7 @@ Additional build options can be enabled by runing ccmake.
 To install, copy the library and SOURCES/install.sql to a Vertica node.  Edit install.sql and copy the correct library path and file name at the top, then run with `vsql -f install.sql`
 
 ## Examples
-Theta sketch is used to estimate cardinality.  Frequency sketch is used to estimate most common items.  Consider the following table and sketches:
+Theta sketch and Hll sketch used to estimate cardinality.  Frequency sketch is used to estimate most common items.  Consider the following table and sketches:
 ```
 dbadmin=> select * from freq order by v1;
  v1
