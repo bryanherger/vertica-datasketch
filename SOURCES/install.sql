@@ -8,6 +8,7 @@ create or replace transform function theta_sketch_create_udtf as language 'C++' 
 GRANT EXECUTE ON TRANSFORM FUNCTION theta_sketch_create_udtf(VARCHAR) TO PUBLIC;
 
 -- SELECT theta_sketch_get_estimate(theta_sketch) FROM ...
+-- returns cardinality estimate as integer
 CREATE OR REPLACE FUNCTION theta_sketch_get_estimate AS
     LANGUAGE 'C++'
     NAME 'ThetaSketchGetEstimateFactory' LIBRARY DataSketches;
@@ -39,13 +40,15 @@ CREATE OR REPLACE AGGREGATE FUNCTION theta_sketch_union_agg AS
     NAME 'ThetaSketchAggregateUnionFactory' LIBRARY DataSketches;
 GRANT EXECUTE ON AGGREGATE FUNCTION theta_sketch_union_agg(LONG VARBINARY) TO PUBLIC;
 
--- SELECT key, theta_sketch_create(binary) FROM ... GROUP BY key
+-- SELECT key, theta_sketch_create(varchar) FROM ... GROUP BY key
+-- returns sketch data as varbinary
 CREATE OR REPLACE AGGREGATE FUNCTION theta_sketch_create AS
     LANGUAGE 'C++'
     NAME 'ThetaSketchAggregateCreateVarcharFactory' LIBRARY DataSketches;
 GRANT EXECUTE ON AGGREGATE FUNCTION theta_sketch_create(VARCHAR) TO PUBLIC;
 
--- SELECT key, theta_sketch_create(chars) FROM ... GROUP BY key
+-- SELECT key, theta_sketch_create(binary) FROM ... GROUP BY key
+-- returns sketch data as varbinary
 CREATE OR REPLACE AGGREGATE FUNCTION theta_sketch_create AS
     LANGUAGE 'C++'
     NAME 'ThetaSketchAggregateCreateVarbinaryFactory' LIBRARY DataSketches;
@@ -71,8 +74,17 @@ GRANT EXECUTE ON FUNCTION theta_sketch_a_not_b(LONG VARBINARY, LONG VARBINARY) T
 
 -- Frequency sketches
 -- SELECT key, frequency_sketch_create(varchar) FROM ... GROUP BY key
+-- Returns JSON array of [key,frequency] pairs
 CREATE OR REPLACE AGGREGATE FUNCTION frequency_sketch_create AS
     LANGUAGE 'C++'
     NAME 'FrequencyAggregateCreateFactory' LIBRARY DataSketches;
 GRANT EXECUTE ON AGGREGATE FUNCTION frequency_sketch_create(VARCHAR) TO PUBLIC;
+
+-- HLL sketches
+-- SELECT key, frequency_sketch_create(varchar) FROM ... GROUP BY key
+-- returns cardinality estimate as integer
+CREATE OR REPLACE AGGREGATE FUNCTION hll_sketch_create AS
+    LANGUAGE 'C++'
+    NAME 'HllAggregateCreateFactory' LIBRARY DataSketches;
+GRANT EXECUTE ON AGGREGATE FUNCTION hll_sketch_create(VARCHAR) TO PUBLIC;
 

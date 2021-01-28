@@ -21,6 +21,8 @@ class ThetaSketchAggregateCreate : public ThetaSketchAggregateFunction {
     {
         try {
             updatex = update_theta_sketch_custom::builder().set_lg_k(logK).set_seed(seed).build();
+            auto data = updatex.compact().serialize();
+            aggs.getStringRef(0).copy((char *) &data[0], data.size());
         } catch (exception &e) {
             // Standard exception. Quit.
             vt_report_error(0, "Exception while initializing intermediate aggregates: [%s]", e.what());

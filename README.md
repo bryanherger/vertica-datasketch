@@ -5,7 +5,7 @@ Details on the library and underlying algorithm can be found here https://datask
 
 This extensions uses the open-source C++ implementation https://github.com/apache/incubator-datasketches-cpp/
 
-**Currently only the theta sketch and frequency sketch are implemented for Vertica, see examples below.**
+**Currently only the theta sketch, Hll sketch, and frequency sketch are implemented for Vertica, see examples below.**
 
 ## Install
 This library requires cmake 3.14+  "yum install cmake3" package should install the correct version
@@ -39,6 +39,12 @@ dbadmin=> select theta_sketch_get_estimate(theta_sketch_create(v1)) from freq;
  theta_sketch_get_estimate
 ---------------------------
                          3
+(1 row)
+
+dbadmin=> select hll_sketch_create(v1) from freq;
+ hll_sketch_create
+-------------------
+                 3
 (1 row)
 
 dbadmin=> select frequency_sketch_create(v1) from freq;
