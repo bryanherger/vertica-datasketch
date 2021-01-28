@@ -22,8 +22,9 @@ Additional build options can be enabled by runing ccmake.
 To install, copy the library and SOURCES/install.sql to a Vertica node.  Edit install.sql and copy the correct library path and file name at the top, then run with `vsql -f install.sql`
 
 ## Examples
+Theta sketch is used to estimate cardinality.  Frequency sketch is used to estimate most common items.  Consider the following table and sketches:
 ```
-dbadmin=> select * from freq;
+dbadmin=> select * from freq order by v1;
  v1
 ----
  a
