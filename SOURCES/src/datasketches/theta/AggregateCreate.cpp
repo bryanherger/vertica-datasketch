@@ -1,5 +1,6 @@
 #include "Vertica.h"
 #include <iostream>
+#include <thread>
 #include <theta_sketch.hpp>
 #include <theta_union.hpp>
 #include "../../../include/datasketches/theta/theta_common.hpp"
@@ -20,18 +21,6 @@ class ThetaSketchAggregateCreate : public ThetaSketchAggregateFunction {
     {
         try {
             updatex = update_theta_sketch_custom::builder().set_lg_k(logK).set_seed(seed).build();
-            vint &count = aggs.getIntRef(2);
-            count = 0;
-            vint &calls = aggs.getIntRef(3);
-            calls = 0;
-
-            // OOTB behavior
-            auto u = theta_union_custom::builder()
-                    .set_lg_k(logK)
-                    .set_seed(seed)
-                    .build();
-            auto data = u.get_result().serialize(); // provides compact & rebuild sketch <=> min size
-            aggs.getStringRef(0).copy((char *) &data[0], data.size());
         } catch (exception &e) {
             // Standard exception. Quit.
             vt_report_error(0, "Exception while initializing intermediate aggregates: [%s]", e.what());

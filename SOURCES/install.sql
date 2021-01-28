@@ -3,6 +3,7 @@ DROP LIBRARY IF EXISTS DataSketches CASCADE;
 
 CREATE OR REPLACE LIBRARY DataSketches AS '/home/dbadmin/github/vertica-datasketch/build/libvertica-datasketches.so';
 
+-- theta sketches
 create or replace transform function theta_sketch_create_udtf as language 'C++' name 'ThetaCreateUDTFFactory' library DataSketches;
 GRANT EXECUTE ON TRANSFORM FUNCTION theta_sketch_create_udtf(VARCHAR) TO PUBLIC;
 
@@ -67,3 +68,11 @@ CREATE OR REPLACE FUNCTION theta_sketch_a_not_b AS
     LANGUAGE 'C++'
     NAME 'ThetaSketchANotBFactory' LIBRARY DataSketches;
 GRANT EXECUTE ON FUNCTION theta_sketch_a_not_b(LONG VARBINARY, LONG VARBINARY) TO PUBLIC;
+
+-- Frequency sketches
+-- SELECT key, frequency_sketch_create(varchar) FROM ... GROUP BY key
+CREATE OR REPLACE AGGREGATE FUNCTION frequency_sketch_create AS
+    LANGUAGE 'C++'
+    NAME 'FrequencyAggregateCreateFactory' LIBRARY DataSketches;
+GRANT EXECUTE ON AGGREGATE FUNCTION frequency_sketch_create(VARCHAR) TO PUBLIC;
+

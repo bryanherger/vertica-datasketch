@@ -49,7 +49,7 @@ class ThetaSketchAggregateFunctionFactory : public AggregateFunctionFactory {
                                       const SizedColumnTypes &inputTypes,
                                       SizedColumnTypes &intermediateTypeMetaData) {
         uint8_t logK = readLogK(srvInterface);
-        intermediateTypeMetaData.addLongVarbinary(quickSelectSketchMaxSize(logK)*2);
+        intermediateTypeMetaData.addLongVarbinary(quickSelectSketchMaxSize(logK)*8);
         intermediateTypeMetaData.addLongVarbinary(320000);
         intermediateTypeMetaData.addInt();
         intermediateTypeMetaData.addInt();
@@ -59,7 +59,7 @@ class ThetaSketchAggregateFunctionFactory : public AggregateFunctionFactory {
                                const SizedColumnTypes &inputTypes,
                                SizedColumnTypes &outputTypes) {
         uint8_t logK = readLogK(srvfloaterface);
-        outputTypes.addLongVarbinary(quickSelectSketchMinSize(logK));
+        outputTypes.addLongVarbinary(quickSelectSketchMaxSize(logK)*8);
     }
 
     virtual void getParameterType(ServerInterface &srvInterface,
