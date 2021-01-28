@@ -5,13 +5,11 @@ Details on the library and underlying algorithm can be found here https://datask
 
 This extensions uses the open-source C++ implementation https://github.com/apache/incubator-datasketches-cpp/
 
-**Currently only the theta sketch is implemented for Vertica.**
+**Currently only the theta sketch and frequency sketch are implemented for Vertica, see examples below.**
 
-# Build
-## Requirements
-cmake 3.14+
+## Install
+This library requires cmake 3.14+  "yum install cmake3" package should install the correct version
 
-## How to build
 ```
 mkdir build
 cd build
@@ -23,7 +21,32 @@ Additional build options can be enabled by runing ccmake.
 
 To install, copy the library and SOURCES/install.sql to a Vertica node.  Edit install.sql and copy the correct library path and file name at the top, then run with `vsql -f install.sql`
 
-# Known issues
+## Examples
+```
+dbadmin=> select * from freq;
+ v1
+----
+ a
+ a
+ a
+ b
+ b
+ c
+(6 rows)
+
+dbadmin=> select theta_sketch_get_estimate(theta_sketch_create(v1)) from freq;
+ theta_sketch_get_estimate
+---------------------------
+                         3
+(1 row)
+
+dbadmin=> select frequency_sketch_create(v1) from freq;
+ frequency_sketch_create
+-------------------------
+ [[a,3],[b,2],[c,1]]
+(1 row)
+```
+## Known issues
 In Vertica, each query is given at runtime a pool which depends of the configuration of the database and the context (User, Roles, etc).
 
 The Datasketch-CPP library uses C++ standard allocators to allocate/release the memory required for sketch processing.
