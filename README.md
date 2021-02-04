@@ -1,14 +1,14 @@
 # Vertica DataSketches
 This repository contains C++ bindings between Apache Datasketches library and Vertica Database. It was created by the Analytics Infrastructure teams at Criteo.
 
-Details on the library and underlying algorithm can be found here https://datasketches.apache.org/
+Details on the library and underlying algorithm can be found at https://datasketches.apache.org/
 
-This extensions uses the open-source C++ implementation https://github.com/apache/incubator-datasketches-cpp/
+This extensions uses the open-source C++ implementation from https://github.com/apache/datasketches-cpp
 
 **Currently only the theta sketch, Hll (HyperLogLog) sketch, and frequency sketch are implemented for Vertica, see examples below.**
 
 ## Install
-This library requires cmake 3.14+  "yum install cmake3" package should install the correct version
+This library requires cmake 3.14+  "yum install cmake3" package should install the correct version.  Then run:
 
 ```
 mkdir build
@@ -17,7 +17,7 @@ cmake ../SOURCES
 make
 ```
 
-Additional build options can be enabled by runing ccmake.
+Additional build options can be enabled by running ccmake.
 
 To install, copy the library and SOURCES/install.sql to a Vertica node.  Edit install.sql and copy the correct library path and file name at the top, then run with `vsql -f install.sql`
 
