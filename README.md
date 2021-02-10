@@ -1,11 +1,11 @@
 # Vertica DataSketches
-This repository contains C++ bindings between Apache Datasketches library and Vertica Database. It was created by the Analytics Infrastructure teams at Criteo.
+This repository contains C++ bindings between Apache Datasketches library and Vertica Database.
 
 Details on the library and underlying algorithm can be found at https://datasketches.apache.org/
 
 This extensions uses the open-source C++ implementation from https://github.com/apache/datasketches-cpp
 
-**Currently only the theta sketch, Hll (HyperLogLog) sketch, and frequency sketch are implemented for Vertica, see examples below.**
+**Currently the theta sketch, Hll (HyperLogLog) sketch, and frequency sketch are implemented for Vertica, see examples below.**
 
 ## Install
 This library requires cmake 3.14+  "yum install cmake3" package should install the correct version.  Then run:
