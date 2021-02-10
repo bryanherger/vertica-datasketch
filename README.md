@@ -53,6 +53,32 @@ dbadmin=> select frequency_sketch_create(v1) from freq;
  [[a,3],[b,2],[c,1]]
 (1 row)
 ```
+Theta sketches also support set operations: intersection, union, difference (as a_not_b).  Consider the following tables and examples:  
+```
+Table setA, varchar field v1: a,b,c,d,e
+Table setB, varchar field v1:     c,d,e,f,g
+
+dbadmin=> select theta_sketch_get_estimate(
+    theta_sketch_union(theta_sketch_create(setA.v1),theta_sketch_create(setB.v1))
+) from setA, setB;
+ theta_sketch_get_estimate
+---------------------------
+                         7
+                         
+dbadmin=> select theta_sketch_get_estimate(
+    theta_sketch_intersection(theta_sketch_create(setA.v1),theta_sketch_create(setB.v1))
+) from setA, setB;
+ theta_sketch_get_estimate
+---------------------------
+                         3
+                         
+dbadmin=> select theta_sketch_get_estimate(
+    theta_sketch_a_not_b(theta_sketch_create(setA.v1),theta_sketch_create(setB.v1))
+) from setA, setB;
+ theta_sketch_get_estimate
+---------------------------
+                         2
+```
 ## Known issues
 In Vertica, each query is given at runtime a pool which depends of the configuration of the database and the context (User, Roles, etc).
 
