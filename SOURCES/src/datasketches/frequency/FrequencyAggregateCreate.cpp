@@ -22,8 +22,8 @@ uint8_t readTopK(ServerInterface &serverInterface) {
         }
     } else {
         LogDebugUDxWarn(serverInterface, "Parameter %s was not provided. Defaulting to %d",
-                        "topK", 1000);
-        topK = 1000;
+                        "topK", 10);
+        topK = 10;
     }
     return topK;
 }
